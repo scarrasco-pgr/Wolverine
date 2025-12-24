@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Wolverine.API/Wolverine.API.csproj" />
+  <Project Path="Wolverine.AppHost/Wolverine.AppHost.csproj" />
+  <Project Path="Wolverine.ServiceDefaults/Wolverine.ServiceDefaults.csproj" />
+</Solution>
