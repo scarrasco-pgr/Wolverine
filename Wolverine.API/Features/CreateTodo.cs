@@ -1,6 +1,6 @@
-﻿using Marten;
-using Wolverine.API.Models;
+﻿using Wolverine.API.Models;
 using Wolverine.Http;
+using Wolverine.Marten;
 
 namespace Wolverine.API.Features
 {
@@ -9,15 +9,15 @@ namespace Wolverine.API.Features
 
     public record CreateTodo(string Description);
     public record TodoCreated(Guid Id, string Description, bool Completed);
-    public static class TodoCreationEndpoint
+    public static class CreateTodoEndpoint
     {
         [WolverinePost("/todos")]
-        public static (TodoCreationResponse, TodoCreated) CreateTodo(CreateTodo command, IDocumentSession session)
+        public static (TodoCreationResponse, IStartStream, TodoCreated) CreateTodo(CreateTodo command)
         {
-            var todoCreated = new TodoCreated(Guid.NewGuid(), command.Description, false);
-            session.Events.StartStream<Todo>(todoCreated.Id, todoCreated);
+            var todoCreated = new TodoCreated(Guid.CreateVersion7(), command.Description, false);
             return (
                 new TodoCreationResponse(todoCreated.Id),
+                MartenOps.StartStream<Todo>(todoCreated.Id, todoCreated),
                 todoCreated
             );
         }
