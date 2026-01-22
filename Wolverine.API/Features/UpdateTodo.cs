@@ -1,17 +1,17 @@
-﻿using Marten;
+﻿using Wolverine.API.Models;
 using Wolverine.Http;
+using Wolverine.Marten;
 
 namespace Wolverine.API.Features
 {
-    public record UpdateTodo(string Description, bool Completed);
+    public record UpdateTodo(Guid TodoId, string Description, bool Completed);
     public record TodoUpdated(Guid Id, string Description, bool Completed);
     public static class UpdateTodoEndpoint
     {
-        [WolverinePut("/todos/{Id}")]
-        public static (IResult, TodoUpdated) UpdateTodo(Guid Id, UpdateTodo command, IDocumentSession session)
+        [WolverinePut("/todos")]
+        public static (IResult, TodoUpdated) UpdateTodo(UpdateTodo command, [ReadAggregate] Todo _)
         {
             var updatedTodo = new TodoUpdated(Guid.CreateVersion7(), command.Description, command.Completed);
-            session.Events.Append(Id, updatedTodo);
             return (
                 Results.NoContent(),
                 updatedTodo
