@@ -18,7 +18,7 @@ builder.Services.AddMarten(options =>
     options.Connection(connectionString!);
     options.DatabaseSchemaName = "todo";
     options.Projections.Snapshot<Todo>(SnapshotLifecycle.Inline);
-})
+}).UseLightweightSessions()
     .IntegrateWithWolverine();
 
 

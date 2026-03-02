@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="API.Tests/WolverineAPI.Tests.csproj" Id="a72e2f4d-4ffd-4fc8-bc54-eaca5feee79e" />
+  <Project Path="ServiceDefaults/ServiceDefaults.csproj" Id="5b651514-01a0-478f-ae4b-586145238aad" />
   <Project Path="Wolverine.API/Wolverine.API.csproj" />
   <Project Path="Wolverine.AppHost/Wolverine.AppHost.csproj" />
   <Project Path="Wolverine.ServiceDefaults/Wolverine.ServiceDefaults.csproj" />
