@@ -9,8 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.1.0" />
-    <PackageReference Include="Aspire.Npgsql" Version="13.1.0" />
+    <PackageReference Include="Aspire.Confluent.Kafka" Version="13.1.2" />
+    <PackageReference Include="Aspire.Hosting.Kafka" Version="13.1.2" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.1.2" />
+    <PackageReference Include="Aspire.Npgsql" Version="13.1.2" />
   </ItemGroup>
 
   <ItemGroup>

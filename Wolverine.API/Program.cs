@@ -1,11 +1,12 @@
 using JasperFx;
+using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Projections;
 using Wolverine;
 using Wolverine.API.Models;
 using Wolverine.Http;
+using Wolverine.Kafka;
 using Wolverine.Marten;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,11 +20,19 @@ builder.Services.AddMarten(options =>
     options.DatabaseSchemaName = "todo";
     options.Projections.Snapshot<Todo>(SnapshotLifecycle.Inline);
 }).UseLightweightSessions()
-    .IntegrateWithWolverine();
-
+    .IntegrateWithWolverine()
+    .UseNpgsqlDataSource()
+    .AddAsyncDaemon(DaemonMode.HotCold)
+    .PublishEventsToWolverine("Everything");
 
 builder.Host.UseWolverine(opts =>
 {
+    var kafkaConnectionString = builder.Configuration.GetConnectionString("kafka");
+    if (!string.IsNullOrEmpty(kafkaConnectionString))
+    {
+        opts.UseKafka(kafkaConnectionString).AutoProvision();
+    }
+    opts.PublishAllMessages().ToKafkaTopic("todo-events");
     opts.Policies.AutoApplyTransactions();
 });
 

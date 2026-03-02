@@ -1,12 +1,11 @@
-﻿using Wolverine.API.Models;
+﻿using Events;
+using Wolverine.API.Models;
 using Wolverine.Http;
 using Wolverine.Marten;
 
 namespace Wolverine.API.Features
 {
     public record UpdateTodo(string Description, bool Completed);
-
-    public record TodoUpdated(Guid Id, string Description, bool Completed);
 
     public static class UpdateTodoEndpoint
     {

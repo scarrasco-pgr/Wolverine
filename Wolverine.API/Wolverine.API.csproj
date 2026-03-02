@@ -7,14 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Marten" Version="8.17.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
-    <PackageReference Include="WolverineFx" Version="5.9.2" />
-    <PackageReference Include="WolverineFx.Http" Version="5.9.2" />
-    <PackageReference Include="WolverineFx.Marten" Version="5.9.2" />
+    <PackageReference Include="Marten" Version="8.22.2" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+    <PackageReference Include="WolverineFx" Version="5.16.4" />
+    <PackageReference Include="WolverineFx.Http" Version="5.16.4" />
+    <PackageReference Include="WolverineFx.Kafka" Version="5.16.4" />
+    <PackageReference Include="WolverineFx.Marten" Version="5.16.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Events\Events.csproj" />
     <ProjectReference Include="..\Wolverine.ServiceDefaults\Wolverine.ServiceDefaults.csproj" />
   </ItemGroup>
 

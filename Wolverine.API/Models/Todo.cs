@@ -1,4 +1,4 @@
-﻿using Wolverine.API.Features;
+﻿using Events;
 
 namespace Wolverine.API.Models;
 
