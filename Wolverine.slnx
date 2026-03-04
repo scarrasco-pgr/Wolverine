@@ -1,6 +1,9 @@
 <Solution>
   <Project Path="API.Tests/WolverineAPI.Tests.csproj" Id="a72e2f4d-4ffd-4fc8-bc54-eaca5feee79e" />
   <Project Path="Events/Events.csproj" Id="34461ff9-5520-4e54-921a-6bd0c82e593a" />
+  <Project Path="Search.API.Data/Search.API.Data.csproj" Id="28aabcac-5d51-4514-b0f2-bae4800d759b" />
+  <Project Path="Search.API.Migration/Search.API.Migration.csproj" />
+  <Project Path="Search.API/Search.API.csproj" />
   <Project Path="ServiceDefaults/ServiceDefaults.csproj" Id="5b651514-01a0-478f-ae4b-586145238aad" />
   <Project Path="Wolverine.API/Wolverine.API.csproj" />
   <Project Path="Wolverine.AppHost/Wolverine.AppHost.csproj" />

@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Search.API.Migration\Search.API.Migration.csproj" />
+    <ProjectReference Include="..\Search.API\Search.API.csproj" />
     <ProjectReference Include="..\Wolverine.API\Wolverine.API.csproj" />
   </ItemGroup>
 
