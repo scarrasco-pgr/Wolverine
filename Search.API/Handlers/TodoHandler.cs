@@ -12,5 +12,17 @@ namespace Search.API.Handlers
             Description = @event.Description,
             Completed = @event.Completed,
         });
+
+        public static Update<Todo> Handle(TodoUpdated @event, [Entity] Todo todo)
+        {
+            todo.Description = @event.Description;
+            todo.Completed = @event.Completed;
+            return Storage.Update(todo);
+        }
+
+        public static Delete<Todo> Handle(TodoDeleted _, [Entity] Todo todo)
+        {
+            return Storage.Delete(todo);
+        }
     }
 }

@@ -10,10 +10,10 @@ namespace Wolverine.API.Features
     public static class UpdateTodoEndpoint
     {
         [WolverinePut("/todos/{todoId}")]
-        public static (IResult, TodoUpdated) UpdateTodo(UpdateTodo command, [WriteAggregate] Todo _) =>
+        public static (IResult, TodoUpdated) UpdateTodo(UpdateTodo command, [WriteAggregate] Todo todo) =>
             (
                 Results.NoContent(),
-                new TodoUpdated(Guid.CreateVersion7(), command.Description, command.Completed)
+                new TodoUpdated(todo.Id, command.Description, command.Completed)
             );
     }
 }
