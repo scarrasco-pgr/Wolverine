@@ -11,6 +11,10 @@ namespace Search.API.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:PostgresExtension:fuzzystrmatch", ",,")
+                .Annotation("Npgsql:PostgresExtension:pg_trgm", ",,");
+
             migrationBuilder.CreateTable(
                 name: "Todos",
                 columns: table => new
@@ -23,6 +27,13 @@ namespace Search.API.Data.Migrations
                 {
                     table.PrimaryKey("PK_Todos", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Todos_Description",
+                table: "Todos",
+                column: "Description")
+                .Annotation("Npgsql:IndexMethod", "gin")
+                .Annotation("Npgsql:IndexOperators", new[] { "gin_trgm_ops" });
         }
 
         /// <inheritdoc />

@@ -12,7 +12,7 @@ using Search.API.Data.Contexts;
 namespace Search.API.Data.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20260304205442_Initial")]
+    [Migration("20260305133332_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -23,6 +23,8 @@ namespace Search.API.Data.Migrations
                 .HasAnnotation("ProductVersion", "10.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "fuzzystrmatch");
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "pg_trgm");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Search.API.Data.Models.Todo", b =>
@@ -39,6 +41,11 @@ namespace Search.API.Data.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Description");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Description"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Description"), new[] { "gin_trgm_ops" });
 
                     b.ToTable("Todos");
                 });
