@@ -28,6 +28,16 @@ builder.Host.UseWolverine(opts =>
         .RetryWithCooldown(50.Milliseconds(), 200.Milliseconds(), 1.Seconds());
 });
 var app = builder.Build();
+app.MapGet("/search", async (string query, TodoContext db) =>
+{
+    var results = await db.Todos
+        .Where(t => EF.Functions.TrigramsSimilarity(t.Description, query) > 0.3)
+        .OrderByDescending(t => EF.Functions.TrigramsSimilarity(t.Description, query))
+        .ToListAsync();
+
+    return Results.Ok(results);
+});
+
 app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
