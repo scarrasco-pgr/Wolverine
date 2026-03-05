@@ -1,29 +1,33 @@
 using JasperFx.Core;
+using Microsoft.EntityFrameworkCore;
 using Search.API.Data.Contexts;
 using Wolverine;
+using Wolverine.EntityFrameworkCore;
 using Wolverine.ErrorHandling;
 using Wolverine.Kafka;
+using Wolverine.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddNpgsqlDbContext<TodoContext>(connectionName: "search-db");
+builder.AddNpgsqlDbContext<TodoContext>("search-db");
 builder.AddServiceDefaults();
 builder.Services.AddOpenApi();
 builder.Host.UseWolverine(opts =>
 {
+    var connectionString = builder.Configuration.GetConnectionString("search-db");
+    opts.UseEntityFrameworkCoreTransactions(TransactionMiddlewareMode.Lightweight);
+    opts.Policies.UseDurableLocalQueues();
+
     var kafkaConnectionString = builder.Configuration.GetConnectionString("kafka");
     if (!string.IsNullOrEmpty(kafkaConnectionString))
     {
         opts.UseKafka(kafkaConnectionString);
     }
     opts.ListenToKafkaTopic("todo-events");
-
-    // Error handling policy for all handlers in this project
     opts.OnException<HttpRequestException>()
         .RetryWithCooldown(50.Milliseconds(), 200.Milliseconds(), 1.Seconds());
 });
 var app = builder.Build();
-
 app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
