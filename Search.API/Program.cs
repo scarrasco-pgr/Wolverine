@@ -28,8 +28,14 @@ builder.Host.UseWolverine(opts =>
         .RetryWithCooldown(50.Milliseconds(), 200.Milliseconds(), 1.Seconds());
 });
 var app = builder.Build();
-app.MapGet("/search", async (string query, TodoContext db) =>
+
+app.MapGet("/search", async (string? query, TodoContext db) =>
 {
+    if (query is null)
+    {
+        return Results.Ok(await db.Todos.ToListAsync());
+    }
+
     var results = await db.Todos
         .Where(t => EF.Functions.TrigramsSimilarity(t.Description, query) > 0.3)
         .OrderByDescending(t => EF.Functions.TrigramsSimilarity(t.Description, query))
